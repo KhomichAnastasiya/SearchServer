@@ -265,6 +265,24 @@ void PrintDocument(const Document& document) {
         << " }"s << endl;
 }
 
+template<typename T>
+void Print(ostream& out, const T& container) {
+    bool first = true;
+    for (const auto& entry : container) {
+        if (!first) {
+            out << ", "s;
+        }
+        first = false;
+        out << entry;
+    }
+}
+
+template<typename Element>
+ostream& operator<<(ostream& out, vector<Element> vector) {
+    Print(out, vector);
+    return out;
+}
+
 
 template <typename T, typename U>
 void AssertEqualImpl(const T& t, const U& u, const string& t_str, const string& u_str, const string& file,
@@ -375,44 +393,26 @@ void TestExcludeMinusWordsFromAddedDocumentContent()
 
 void TestMatchDocuments()
 {
-    const int doc_id1 = 42;
-    const string content1 = "fluffy black dog"s;
-    const vector<int> ratings1 = { 1, 2, 3 };
+    const int doc_id1 = 43;
+    const string content1 = "A black cat with green eyes"s;
+    const vector<int> ratings1 = { 1, 2, 3, 4 };
 
-    const int doc_id2 = 43;
-    const string content2 = "A cat with green eyes"s;
-    const vector<int> ratings2 = { 1, 2, 3, 4 };
-
-    const int doc_id3 = 44;
-    const string content3 = "black cat"s;
-    const vector<int> ratings3 = { 2, 1 };
+    const int doc_id2 = 44;
+    const string content2 = "white cat"s;
+    const vector<int> ratings2 = { 2, 1 };
 
     SearchServer server;
-    Document doc;
-
-    const string query = "white cat -fluffy"s;
+    const string query = "big white cat"s;
 
     server.AddDocument(doc_id1, content1, DocumentStatus::ACTUAL, ratings1);
-    auto matched_documents1 = server.FindTopDocuments(query);
-    ASSERT_EQUAL(matched_documents1.size(), 0);
+    tuple<vector<string>, DocumentStatus> match_doc1 = server.MatchDocument(query, doc_id1);
+    vector<string> expected_match_doc1 = { "cat"s };
+    ASSERT_EQUAL(get<0>(match_doc1), expected_match_doc1);
 
     server.AddDocument(doc_id2, content2, DocumentStatus::ACTUAL, ratings2);
-    auto matched_documents2 = server.FindTopDocuments(query);
-    vector<Document> expexted_matched_documents2 = { {doc.id = 43, doc.relevance = 0.0, doc.rating = 2} };
-
-    ASSERT_EQUAL(matched_documents2.size(), 1);
-    ASSERT_EQUAL(matched_documents2[0].id, expexted_matched_documents2[0].id);
-    ASSERT_EQUAL(matched_documents2[0].rating, expexted_matched_documents2[0].rating);
-
-    server.AddDocument(doc_id3, content3, DocumentStatus::ACTUAL, ratings3);
-    auto matched_documents3 = server.FindTopDocuments(query);
-    vector<Document> expexted_matched_documents3 = { {doc.id = 44, doc.relevance = 0.0, doc.rating = 1},
-                                                     {doc.id = 43, doc.relevance = 0.0, doc.rating = 2} };
-    ASSERT_EQUAL(matched_documents3.size(), 2);
-    ASSERT_EQUAL(matched_documents3[0].id, expexted_matched_documents3[0].id);
-    ASSERT_EQUAL(matched_documents3[1].id, expexted_matched_documents3[1].id);
-    ASSERT_EQUAL(matched_documents3[0].rating, expexted_matched_documents3[0].rating);
-    ASSERT_EQUAL(matched_documents3[1].rating, expexted_matched_documents3[1].rating);
+    tuple<vector<string>, DocumentStatus> match_doc2 = server.MatchDocument(query, doc_id2);
+    vector<string> expected_match_doc2 = { "cat"s, "white"s };
+    ASSERT_EQUAL(get<0>(match_doc2), expected_match_doc2);
 
 }
 
