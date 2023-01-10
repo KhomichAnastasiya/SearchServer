@@ -32,6 +32,8 @@ public:
 
     Paginator(Iterator range_begin, Iterator range_end, size_t page_size) {
 
+        assert(range_end >= range_begin && page_size > 0);
+
         auto it = range_begin;
         auto count_pages = std::distance(range_begin, range_end) / page_size;
         int check_count_page = std::distance(range_begin, range_end) % page_size;
