@@ -6,6 +6,7 @@
 #include <set>
 #include <map>
 #include <algorithm>
+#include <numeric>
 #include <stdexcept>
 #include <cmath>
 
@@ -85,29 +86,9 @@ private:
             });
     }
 
-    std::vector<std::string> SplitIntoWordsNoStop(const std::string& text) const {
-        std::vector<std::string> words;
-        for (const std::string& word : SplitIntoWords(text)) {
-            if (!IsValidWord(word)) {
-                throw std::invalid_argument("Word "s + word + " is invalid"s);
-            }
-            if (!IsStopWord(word)) {
-                words.push_back(word);
-            }
-        }
-        return words;
-    }
+    std::vector<std::string> SplitIntoWordsNoStop(const std::string& text) const;
 
-    static int ComputeAverageRating(const std::vector<int>& ratings) {
-        if (ratings.empty()) {
-            return 0;
-        }
-        int rating_sum = 0;
-        for (const int rating : ratings) {
-            rating_sum += rating;
-        }
-        return rating_sum / static_cast<int>(ratings.size());
-    }
+    static int ComputeAverageRating(const std::vector<int>& ratings);
 
     struct QueryWord {
         std::string data;
@@ -115,43 +96,14 @@ private:
         bool is_stop;
     };
 
-    QueryWord ParseQueryWord(const std::string& text) const {
-        if (text.empty()) {
-            throw std::invalid_argument("Query word is empty"s);
-        }
-        std::string word = text;
-        bool is_minus = false;
-        if (word[0] == '-') {
-            is_minus = true;
-            word = word.substr(1);
-        }
-        if (word.empty() || word[0] == '-' || !IsValidWord(word)) {
-            throw std::invalid_argument("Query word "s + text + " is invalid"s);
-        }
-
-        return { word, is_minus, IsStopWord(word) };
-    }
+    QueryWord ParseQueryWord(const std::string& text) const;
 
     struct Query {
         std::set<std::string> plus_words;
         std::set<std::string> minus_words;
     };
 
-    Query ParseQuery(const std::string& text) const {
-        Query result;
-        for (const std::string& word : SplitIntoWords(text)) {
-            const auto query_word = ParseQueryWord(word);
-            if (!query_word.is_stop) {
-                if (query_word.is_minus) {
-                    result.minus_words.insert(query_word.data);
-                }
-                else {
-                    result.plus_words.insert(query_word.data);
-                }
-            }
-        }
-        return result;
-    }
+    Query ParseQuery(const std::string& text) const;
 
     // Existence required
     double ComputeWordInverseDocumentFreq(const std::string& word) const {
