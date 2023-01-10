@@ -30,21 +30,11 @@ private:
 
     const SearchServer& search_server_;
 
+    void AddEmptyRequest(std::vector<Document>& documents_);
+    void DeleteEmptyRequest();
+
     int empty_requests_ = 0;
     std::string empty_query_ = "empty request"s;
-
-    void AddEmptyRequest(std::vector<Document>& documents_){
-        if (documents_.size() == 0){
-            ++empty_requests_;
-        }
-    }
-
-    void DeleteEmptyRequest(){
-        if (requests_.size() > min_in_day_){
-            --empty_requests_;
-            requests_.pop_front();
-        }
-    }
 };
 
 template <typename DocumentPredicate>

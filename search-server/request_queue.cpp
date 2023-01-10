@@ -19,3 +19,15 @@ std::vector<Document> RequestQueue::AddFindRequest(const std::string& raw_query)
     return documents_;
 
 }
+void RequestQueue::AddEmptyRequest(std::vector<Document>& documents_) {
+    if (documents_.size() == 0) {
+        ++empty_requests_;
+    }
+}
+
+void RequestQueue::DeleteEmptyRequest() {
+    if (requests_.size() > min_in_day_) {
+        --empty_requests_;
+        requests_.pop_front();
+    }
+}
