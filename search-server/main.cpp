@@ -5,6 +5,7 @@
 #include "paginator.h"
 #include "document.h"
 #include "tests.h"
+#include "log_duration.h"
 
 using namespace std;
 
@@ -25,9 +26,29 @@ ostream& operator<<(ostream& out, const Document& document) {
     return out;
 }
 
+void Operation_time()
+{
+    SearchServer search_server;
+    //search_server.SetStopWords("и в на"s);
+    search_server.AddDocument(0, "белый кот и модный ошейник"s, DocumentStatus::ACTUAL, { 8, -3 });
+    search_server.AddDocument(1, "пушистый кот пушистый хвост"s, DocumentStatus::ACTUAL, { 7, 2, 7 });
+    search_server.AddDocument(2, "ухоженный пёс выразительные глаза"s, DocumentStatus::ACTUAL, { 5, -12, 2, 1 });
+    search_server.AddDocument(3, "ухоженный скворец евгений"s, DocumentStatus::BANNED, { 9 });
+    //server.MatchDocument(search_server, "пушистый -пёс"s);
+    {
+        LOG_DURATION_STREAM("Operation time:", cout);
+        search_server.MatchDocument("пушистый -пёс"s, 0);
+    }
+    {
+        LOG_DURATION_STREAM("Operation time:", cout);
+        search_server.FindTopDocuments("пушистый -кот"s);
+    }
+
+}
 
 int main() {
-    TestSearchServer();
+    //TestSearchServer();
+    Operation_time();
     SearchServer search_server("and in at"s);
     RequestQueue request_queue(search_server);
     search_server.AddDocument(1, "curly cat curly tail"s, DocumentStatus::ACTUAL, { 7, 2, 7 });

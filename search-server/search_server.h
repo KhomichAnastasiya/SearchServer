@@ -63,6 +63,7 @@ public:
     std::size_t GetDocumentId(int index) const {
         return document_ids_.at(index);
     }
+
     std::tuple<std::vector<std::string>, DocumentStatus> MatchDocument(const std::string& raw_query,
         int document_id) const;
 

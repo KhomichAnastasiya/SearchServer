@@ -1,4 +1,4 @@
-#include "tests.h"
+п»ї#include "tests.h"
 
 
 void AssertImpl(bool value, const string& expr_str, const string& file, const string& func, unsigned line,
@@ -14,7 +14,7 @@ void AssertImpl(bool value, const string& expr_str, const string& file, const st
     }
 }
 
-// -------- Начало модульных тестов поисковой системы ----------
+// -------- РќР°С‡Р°Р»Рѕ РјРѕРґСѓР»СЊРЅС‹С… С‚РµСЃС‚РѕРІ РїРѕРёСЃРєРѕРІРѕР№ СЃРёСЃС‚РµРјС‹ ----------
 
 void TestExcludeStopWordsFromAddedDocumentContent() {
     const int doc_id = 42;
@@ -320,7 +320,7 @@ void TestRelevanceSearchDocuments()
     ASSERT(abs(matched_documents[1].relevance - tf_idf2) < ACCURACY);
 }
 
-// Функция TestSearchServer является точкой входа для запуска тестов
+// Р¤СѓРЅРєС†РёСЏ TestSearchServer СЏРІР»СЏРµС‚СЃСЏ С‚РѕС‡РєРѕР№ РІС…РѕРґР° РґР»СЏ Р·Р°РїСѓСЃРєР° С‚РµСЃС‚РѕРІ
 void TestSearchServer() {
     RUN_TEST(TestExcludeStopWordsFromAddedDocumentContent);
     RUN_TEST(TestAddDocuments);

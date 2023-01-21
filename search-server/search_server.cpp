@@ -73,7 +73,7 @@ int SearchServer::ComputeAverageRating(const std::vector<int>& ratings) {
     return rating_sum / static_cast<int>(ratings.size());
 }
 
-SearchServer::QueryWord SearchServer::ParseQueryWord(const std::string& text) const{
+SearchServer::QueryWord SearchServer::ParseQueryWord(const std::string& text) const {
     if (text.empty()) {
         throw std::invalid_argument("Query word is empty"s);
     }

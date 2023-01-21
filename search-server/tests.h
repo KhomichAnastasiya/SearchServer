@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include <iostream>
 #include <string>
@@ -62,7 +62,7 @@ void RunTestImpl(TFunc func_name_test, const string& func_name) {
 #define ASSERT_HINT(expr, hint) AssertImpl(!!(expr), #expr, __FILE__, __FUNCTION__, __LINE__, (hint))
 #define RUN_TEST(func) RunTestImpl(func, #func)
 
-// -------- Начало модульных тестов поисковой системы ----------
+// -------- РќР°С‡Р°Р»Рѕ РјРѕРґСѓР»СЊРЅС‹С… С‚РµСЃС‚РѕРІ РїРѕРёСЃРєРѕРІРѕР№ СЃРёСЃС‚РµРјС‹ ----------
 
 void TestExcludeStopWordsFromAddedDocumentContent();
 void TestAddDocuments();
@@ -75,5 +75,6 @@ void TestSearchDocementsByStatus();
 int CountMatchWordInAllDocuments(vector<string>content, string word_query);
 double TfIdf(vector<string>content, string word_query, double idf);
 void TestRelevanceSearchDocuments();
-// Функция TestSearchServer является точкой входа для запуска тестов
+// Р¤СѓРЅРєС†РёСЏ TestSearchServer СЏРІР»СЏРµС‚СЃСЏ С‚РѕС‡РєРѕР№ РІС…РѕРґР° РґР»СЏ Р·Р°РїСѓСЃРєР° С‚РµСЃС‚РѕРІ
 void TestSearchServer();
+
