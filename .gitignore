@@ -30,4 +30,4 @@
 *.exe
 *.out
 *.app
-/CMakeLists.txt
+/build_2015_x64
