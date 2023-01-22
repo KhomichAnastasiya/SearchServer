@@ -11,6 +11,7 @@ void SearchServer::AddDocument(int document_id, const std::string& document, Doc
     const double inv_word_count = 1.0 / words.size();
     for (const std::string& word : words) {
         word_to_document_freqs_[word][document_id] += inv_word_count;
+        word_freqs_used_id_[document_id][word] += inv_word_count;
     }
     documents_.emplace(document_id, DocumentData{ ComputeAverageRating(ratings), status });
     document_ids_.push_back(document_id);
@@ -104,4 +105,27 @@ SearchServer::Query SearchServer::ParseQuery(const std::string& text) const {
         }
     }
     return result;
+}
+
+const std::map<std::string, double>& SearchServer::GetWordFrequencies(int document_id) const {
+
+    const static std::map<std::string, double> empty = {};
+    
+    if (word_freqs_used_id_.count(document_id)) {
+        return word_freqs_used_id_.at(document_id);
+    }
+    return empty;
+
+}
+
+void SearchServer::RemoveDocument(int document_id) {
+
+    auto it = find(document_ids_.begin(), document_ids_.end(), document_id);
+    if (it != document_ids_.end()) {
+        document_ids_.erase(it);
+    }
+
+    documents_.erase(document_id);
+    word_freqs_used_id_.erase(document_id);
+
 }
