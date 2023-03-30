@@ -5,7 +5,7 @@ project(search-server)
 set(SOURCE_FOLDER "source")
 set(HDR_FOLDER "include")
 
-include_directories(HDR_FOLDER)
+include_directories(include)
 
 file(GLOB_RECURSE SRC ${SOURCE_FOLDER}/*.cpp)
 file(GLOB_RECURSE HDR ${HDR_FOLDER}/*.h)
