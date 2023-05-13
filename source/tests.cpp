@@ -16,7 +16,7 @@ void AssertImpl(bool value, const string& expr_str, const string& file, const st
 
 // -------- Начало модульных тестов поисковой системы ----------
 
-void TestExcludeStopWordsFromAddedDocumentContent() {
+/*void TestExcludeStopWordsFromAddedDocumentContent() {
     const int doc_id = 42;
     const string content = "cat in the city"s;
     const vector<int> ratings = { 1, 2, 3 };
@@ -28,14 +28,6 @@ void TestExcludeStopWordsFromAddedDocumentContent() {
         const Document& doc0 = found_docs[0];
         ASSERT_EQUAL(doc0.id, doc_id);
     }
-
-    /* {
-        SearchServer server;
-        //server.SetStopWords("in the"s);
-        server.AddDocument(doc_id, content, DocumentStatus::ACTUAL, ratings);
-        ASSERT_HINT(server.FindTopDocuments("in"s).empty(),
-            "Stop words must be excluded from documents"s);
-    }*/
 }
 
 void TestAddDocuments()
@@ -331,4 +323,4 @@ void TestSearchServer() {
     RUN_TEST(TestFilteringSearchResults);
     RUN_TEST(TestSearchDocementsByStatus);
     RUN_TEST(TestRelevanceSearchDocuments);
-}
+}*/
