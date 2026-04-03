@@ -13,3 +13,6 @@ file(GLOB_RECURSE HDR ${HDR_FOLDER}/*.h)
 add_executable(search-server ${SRC} ${HDR})
 
 target_link_libraries(search-server)
+
+find_package(TBB REQUIRED)
+target_link_libraries(search-server PRIVATE TBB::tbb)
