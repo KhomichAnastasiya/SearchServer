@@ -87,7 +87,7 @@ std::tuple<std::vector<std::string_view>, DocumentStatus> SearchServer::MatchDoc
             continue;
         }
         if (word_to_document_freqs_.at(word).count(document_id)) {
-            return { {}, documents_.at(document_id).status };
+            return { std::vector<std::string_view>{}, documents_.at(document_id).status };
         }
     }
     std::vector<std::string_view> matched_words;
